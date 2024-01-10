@@ -1,0 +1,6 @@
+@import 'typography';
+
+@function font($name) {
+  $font: map-get($textStyles, $name);
+  @return (font-weight: map-get($font, font-weight), font-size: map-get($font, font-size));
+}
