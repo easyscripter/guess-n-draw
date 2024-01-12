@@ -1,6 +1,7 @@
 import Layout from '../components/Layout';
 import { ROUTES } from '../enums/routesEnums';
 import CreateSessionPage from '../pages/CreateSessionPage';
+import GamePage from '../pages/GamePage';
 import Home from '../pages/Home';
 
 export const routes = [
@@ -15,6 +16,10 @@ export const routes = [
             {
                 path: ROUTES.CREATE_SESSION,
                 element: <CreateSessionPage/>
+            },
+            {
+                path: ROUTES.GAME,
+                element: <GamePage/>
             }
         ]
     }

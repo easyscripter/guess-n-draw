@@ -6,12 +6,20 @@
   width: 100%;
   height: 70px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px;
   background-color: $main;
   -webkit-box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
   box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
+}
+
+.logo {
+  font-family: "Gilroy", sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  color: $black;
 }
 
 .buttonsContainer {

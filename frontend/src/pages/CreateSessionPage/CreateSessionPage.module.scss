@@ -1,0 +1,71 @@
+@import "../../theming/colors.scss";
+@import "@/theming/fonts";
+@import "@/theming/get-font";
+@import "@/theming/mixins";
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Gilroy", sans-serif;
+  h1 {
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+}
+
+.formContainer {
+  width: 50%;
+  -webkit-box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
+  box-shadow: -1px 8px 11px -3px rgba(34, 60, 80, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Gilroy", sans-serif;
+}
+
+.formItem {
+  margin-bottom: 10px;
+  :global(.ant-form-item-label) {
+    font-weight: 500;
+  }
+  input {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    border: 2px solid $main;
+    padding: 0 10px;
+  }
+
+  button {
+    width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    border: 2px solid $main !important;
+    border-radius: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    &:hover {
+      background-color: $main;
+      color: $white !important;
+    }
+  }
+
+  .cardsListNameSelect {
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    border: 2px solid $main;
+    :global(.ant-select-selector) {
+        border: none;
+    }
+  }
+}
