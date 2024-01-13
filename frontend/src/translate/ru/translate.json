@@ -7,7 +7,14 @@
     "createSession": "Создать сессию",
     "linkForFriend": "Ссылка для друга:",
     "cardsListNameLabel": "Название списка карточек:",
-    "generateLink": "Сгенерировать ссылку"
+    "generateLink": "Сгенерировать ссылку",
+    "linkCopiedMessageText": "Ссылка скопирована в буфер обмена",
+    "noWordsListsMessage": "Нет доступных списков со словами"
+  },
+  "connectGameForm": {
+    "joinGameButton": "Присоединиться к игре",
+    "nameLabel": "Ваше имя:",
+    "title": "Присоединение к игре"
   },
   "requiredField": "Это поле обязательно для заполнения.",
   "gamePage": {

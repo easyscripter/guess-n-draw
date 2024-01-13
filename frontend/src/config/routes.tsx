@@ -3,6 +3,7 @@ import { ROUTES } from '../enums/routesEnums';
 import CreateSessionPage from '../pages/CreateSessionPage';
 import GamePage from '../pages/GamePage';
 import Home from '../pages/Home';
+import ConnectGamePage from '../pages/ConnectGamePage';
 
 export const routes = [
     {
@@ -20,6 +21,10 @@ export const routes = [
             {
                 path: ROUTES.GAME,
                 element: <GamePage/>
+            },
+            {
+                path: ROUTES.CONNECT_GAME_PAGE,
+                element: <ConnectGamePage/>
             }
         ]
     }

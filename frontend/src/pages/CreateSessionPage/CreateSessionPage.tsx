@@ -1,34 +1,76 @@
-import { Button, Form, Select } from "antd";
+import { Button, Form, Select, Spin, message } from "antd";
 import styles from "./CreateSessionPage.module.scss";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../enums/routesEnums";
+import { useMutation, useQuery } from "react-query";
+import apiService from "../../services/apiService";
+import { GameSessionRequest } from "../../types/gameSession";
+import { AxiosError } from "axios";
+import { GAME_SESSION_STATE } from "../../enums/gameSessionStateEnums";
+import { WordsList } from "../../types/wordsList";
 type CreateSessionFormValues = {
   name: string;
   timePerWord: number;
-  cardsListName: string;
+  cardsList: WordsList;
   linkForFriend: string;
 };
 
-const { Option } = Select;
-
 const CreateSessionPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isShowFriendLink, setIsShowFriendLink] = useState<boolean>(false);
+  const [roomId, setRoomId] = useState<string>("");
   const [form] = useForm();
+  const [messageApi, contextHolder] = message.useMessage();
+  const createSessionMutation = useMutation((values: GameSessionRequest) =>
+    apiService.createGameSession(values)
+  );
+  const { isLoading, data } = useQuery(["wordsLists"], () =>
+    apiService.getWordsLists()
+  );
+
   useEffect(() => {
-    form.setFieldsValue({ timePerWord: 60, cardsListName: "Zhejang" });
-  }, []);
+    form.setFieldsValue({ timePerWord: 60, cardsList: data?.wordsLists[0] });
+  }, [data?.wordsLists]);
 
   const generateFriendLink = () => {
+    const _roomId = uuidv4();
+    setRoomId(_roomId);
+    const link = `${window.location.origin}/invite/${_roomId}`;
+    form.setFieldsValue({ linkForFriend: link });
+    navigator.clipboard.writeText(link);
     setIsShowFriendLink(true);
+    messageApi.open({
+      type: "success",
+      content: t("translate.sessionForm.linkCopiedMessageText"),
+    });
   };
 
   const onFinish = (values: CreateSessionFormValues) => {
-    console.log("Success:", values);
+    try {
+      const { name, timePerWord, cardsList } = values;
+      const data: GameSessionRequest = {
+        wordsListId: cardsList.id,
+        players: [name],
+        timePerWord,
+        roomId,
+        state: GAME_SESSION_STATE.CREATED,
+      };
+      createSessionMutation.mutate(data);
+      navigate(ROUTES.GAME);
+    } catch (e) {
+      const error = e as Error | AxiosError;
+      console.log("error:", error);
+    }
   };
+
   return (
     <div className={styles.container}>
+      {contextHolder}
       <h1>{t("translate.createSession")}</h1>
       <div className={styles.formContainer}>
         <Form
@@ -59,10 +101,19 @@ const CreateSessionPage = () => {
             name="cardsListName"
             label={t("translate.sessionForm.cardsListNameLabel")}
           >
-            <Select className={styles.cardsListNameSelect}>
-              <Option value="Zhejiang">Zhejiang</Option>
-              <Option value="Jiangsu">Jiangsu</Option>
-            </Select>
+            {isLoading ? (
+              <Spin />
+            ) : data?.wordsLists?.length ? (
+              <Select
+                className={styles.cardsListNameSelect}
+                options={data.wordsLists.map((list: WordsList) => ({
+                  label: list.name,
+                  value: list,
+                }))}
+              />
+            ) : (
+              <p>{t("translate.sessionForm.noWordsListsMessage")}:</p>
+            )}
           </Form.Item>
           {isShowFriendLink && (
             <Form.Item<CreateSessionFormValues>
@@ -73,11 +124,13 @@ const CreateSessionPage = () => {
               <input disabled />
             </Form.Item>
           )}
-          <Form.Item className={styles.formItem}>
-            <Button onClick={generateFriendLink}>
-              {t("translate.sessionForm.generateLink")}
-            </Button>
-          </Form.Item>
+          {form.getFieldValue("wordsList") && (
+            <Form.Item className={styles.formItem}>
+              <Button onClick={generateFriendLink}>
+                {t("translate.sessionForm.generateLink")}
+              </Button>
+            </Form.Item>
+          )}
           {isShowFriendLink && (
             <Form.Item className={styles.formItem}>
               <Button htmlType="submit">
