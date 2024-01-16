@@ -3,21 +3,21 @@ import WordsList from "../models/wordsList";
 export const WordsListController = {
   getWordsList: async (req: Request, res: Response) => {
     const { name } = req.params;
-    const wordLists = await WordsList.findOne({ name });
-    res.send({ wordLists });
+    const wordsLists = await WordsList.findOne({ name });
+    res.send({ wordsLists });
   },
   getWordsLists: async (req: Request, res: Response) => {
-    const wordLists = await WordsList.find();
-    res.send({ wordLists });
+    const wordsLists = await WordsList.find();
+    res.send({ wordsLists });
   },
   createWordsList: async (req: Request, res: Response) => {
     const { name, words } = req.body;
-    const wordLists = await WordsList.create({ name, words });
-    res.send({ wordLists });
+    const wordsLists = await WordsList.create({ name, words });
+    res.send({ wordsLists });
   },
   updateWordsList: async (req: Request, res: Response) => {
     const { name, words } = req.body;
-    const wordLists = await WordsList.findOneAndUpdate({ name }, { words });
-    res.send({ wordLists });
+    const wordsLists = await WordsList.findOneAndUpdate({ name }, { words });
+    res.send({ wordsLists });
   },
 };

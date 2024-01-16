@@ -12,8 +12,12 @@ router.get("/get-session/:roomId", (req, res) => {
   GameSessionController.getGameSession(req, res);
 });
 
-router.get("/update-session/:roomId", (req, res) => {
+router.put("/update-session", (req, res) => {
   GameSessionController.updateGameSession(req, res);
+});
+
+router.post("/add-user-in-session", (req, res) => {
+  GameSessionController.addUserInGameSession(req, res);
 });
 
 router.get("/words-lists", (req, res) => {

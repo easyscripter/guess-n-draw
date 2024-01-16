@@ -25,4 +25,13 @@ export const GameSessionController = {
     );
     res.send({ gameSession });
   },
+  addUserInGameSession: async (req: Request, res: Response) => {
+    const { roomId, name } = req.body;
+    console.log("roomId:", roomId);
+    const gameSession = await GameSession.findOneAndUpdate(
+      { roomId },
+      { $push: { players: name } }
+    );
+    res.send({ gameSession });
+  },
 };

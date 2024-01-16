@@ -5,18 +5,21 @@ export interface WordsList extends Document {
   words: string[];
 }
 
-const WordsListSchema = new mongoose.Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
+const WordsListSchema = new mongoose.Schema(
+  {
+    _id: {
+      type: Schema.Types.ObjectId,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    words: {
+      type: [String],
+      required: true,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  words: {
-    type: [String],
-    required: true,
-  },
-});
+  { collection: "wordsList" }
+);
 
-export default mongoose.model<WordsList>("WordsList", WordsListSchema);
+export default mongoose.model<WordsList>("wordsList", WordsListSchema);

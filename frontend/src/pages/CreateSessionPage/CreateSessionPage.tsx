@@ -15,7 +15,7 @@ import { WordsList } from "../../types/wordsList";
 type CreateSessionFormValues = {
   name: string;
   timePerWord: number;
-  cardsList: WordsList;
+  wordsList: WordsList;
   linkForFriend: string;
 };
 
@@ -34,7 +34,7 @@ const CreateSessionPage = () => {
   );
 
   useEffect(() => {
-    form.setFieldsValue({ timePerWord: 60, cardsList: data?.wordsLists[0] });
+    form.setFieldsValue({ timePerWord: 60, wordsList: data?.wordsLists[0] });
   }, [data?.wordsLists]);
 
   const generateFriendLink = () => {
@@ -52,9 +52,9 @@ const CreateSessionPage = () => {
 
   const onFinish = (values: CreateSessionFormValues) => {
     try {
-      const { name, timePerWord, cardsList } = values;
+      const { name, timePerWord, wordsList } = values;
       const data: GameSessionRequest = {
-        wordsListId: cardsList.id,
+        wordsListId: wordsList._id,
         players: [name],
         timePerWord,
         roomId,
@@ -98,7 +98,7 @@ const CreateSessionPage = () => {
           </Form.Item>
           <Form.Item<CreateSessionFormValues>
             className={styles.formItem}
-            name="cardsListName"
+            name="wordsList"
             label={t("translate.sessionForm.cardsListNameLabel")}
           >
             {isLoading ? (
@@ -106,10 +106,12 @@ const CreateSessionPage = () => {
             ) : data?.wordsLists?.length ? (
               <Select
                 className={styles.cardsListNameSelect}
-                options={data.wordsLists.map((list: WordsList) => ({
-                  label: list.name,
-                  value: list,
-                }))}
+                  options={data.wordsLists.map((list: WordsList) => {
+                    return {
+                      value: list.id,
+                      label: list.name,
+                    };
+                })}
               />
             ) : (
               <p>{t("translate.sessionForm.noWordsListsMessage")}:</p>

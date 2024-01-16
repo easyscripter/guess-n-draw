@@ -1,5 +1,5 @@
 export type WordsList = {
-  id: number;
+  _id: string;
   name: string;
   words: string[];
 };
